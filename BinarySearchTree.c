@@ -16,7 +16,7 @@ struct node
 }; 
    
 // Criar um novo nó a partir de um valor 
-struct node *novoNo(int item) 
+struct node* novoNo(int item) 
 { 
     struct node *temp =  (struct node *)malloc(sizeof(struct node)); // Alocação dinâmica
     temp->chave = item; 
@@ -27,16 +27,56 @@ struct node *novoNo(int item)
    
 // Percorrer e exibir todos os nós da árvore
 // usando o método In-Order. 
-void exibir(struct node *raiz) 
+void exibirIO(struct node *raiz) 
 { 
-    if (raiz != NULL) 
-    { 
-        exibir(raiz->esquerda); 
-        printf("%d \n", raiz->chave); 
-        exibir(raiz->direita); 
-    } 
+	// Árvore vazia
+    if (raiz == NULL) return;
+    
+	// Recursão no nó esquerdo
+	exibirIO(raiz->esquerda); 
+    
+    // Imprimir nó
+	printf("%d ", raiz->chave); 
+    
+    // Recursão no nó direito
+	exibirIO(raiz->direita); 
+	 
+}
+
+// Percorrer e exibir todos os nós da árvore
+// usando o método Pre-Order.
+void exibirPreO(struct node* node) 
+{ 
+	// Árvore vazia
+    if (node == NULL) return; 
+  
+    // Imprimir nó 
+    printf("%d ", node->chave);   
+  
+    // Recursão no nó esquerdo 
+    exibirPreO(node->esquerda);   
+  
+    // Recursão no nó direito
+    exibirPreO(node->direita); 
+}
+
+// Percorrer e exibir todos os nós da árvore
+// usando o método Post-Order.
+void exibirPosO(struct node* node) 
+{ 	
+	// Árvore vazia
+    if (node == NULL) return; 
+  
+    // Recursão no nó esquerdo 
+    exibirPosO(node->esquerda); 
+  
+    // Recursão no nó direito
+    exibirPosO(node->direita); 
+  
+    // Imprimir nó 
+    printf("%d ", node->chave); 
 } 
-   
+
 // Inserir um valor na árvore
 struct node* inserir(struct node* no, int chave) 
 { 
@@ -52,15 +92,15 @@ struct node* inserir(struct node* no, int chave)
     return no; 
 } 
 
-// Dado uma ABB não vazia, retornar o nó com a menor chave daqula subárvore  
-struct node * menorValorNo(struct node* node) 
+// Dado uma ABB não vazia, retornar o menor valor da árvore 
+struct node* menorValorNo(struct node* node) 
 { 
     struct node* atual = node; 
   
     // Percorrer a árvore até o chegar no valor mais a esquerda da ABB
-    while (atual && atual->esquerda != NULL) 
-        atual = atual->esquerda; 
-  
+    while (atual && atual->esquerda != NULL) {
+	    atual = atual->esquerda; 
+    }
     return atual; 
 } 
 
@@ -111,23 +151,28 @@ struct node* remover(struct node* raiz, int chave)
    
 /* --------------------------------------------------------------
 LISTA DE FUNÇÕES:
-- struct node *novoNo(int item)
-- void exibir(struct node *raiz)
+- struct node* novoNo(int item)
+- void exibirPosO(struct node* node) 
+- void exibirPreO(struct node* node) 
+- void exibirIO(struct node *raiz)
 - struct node* inserir(struct node* no, int chave)
-- struct node * menorValorNo(struct node* node)
+- struct node* menorValorNo(struct node* node)
 - struct node* remover(struct node* raiz, int chave) 	
 --------------------------------------------------------------*/	
 int main(void) 
-{ 
+{ 	
     struct node *arvore = NULL;
 
     arvore = inserir(arvore, 10);
     arvore = inserir(arvore, 2);
-    arvore = inserir(arvore, 6);
-    arvore = inserir(arvore, 8);
-    arvore = remover(arvore, 6);
-    exibir(arvore);
+    arvore = inserir(arvore, 10);
+    arvore = inserir(arvore, 3);
+    arvore = inserir(arvore, 13);
+    exibirIO(arvore);
     
+    
+    
+    putchar('\n');    
     system("PAUSE");
     return 0; 
 } 
